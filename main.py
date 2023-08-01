@@ -22,6 +22,7 @@ def get_area_id(name):
                 return area['id']
               
     return '0'
+
 # готовим нужные данные
 def get_info(raw_data, currency_code = None):
     data = [{'n':i,
@@ -33,14 +34,17 @@ def get_info(raw_data, currency_code = None):
                                          if currency_code == None or currency_code == note['salary']['currency']]
 
     return data
+
 # получаем список всех вакансий с указанными в задании ограничениями
 def get_vacancies():
     # доступ к списку вакансий предоставляется и без авторизации пользователя\приложения
     headers = {'HH-User-Agent': 'api-test-agent'}
     url = 'https://api.hh.ru/vacancies'
+
     # получаем актуальный АЙДИ городов
     area_1 = get_area_id('Москва')
     area_2 = get_area_id('Санкт-Петербург')
+
     # пользуемся языком запросов, описанным в документации
     text = '(NAME:python) AND (DESCRIPTION: django OR flask)'
     
@@ -56,6 +60,7 @@ def get_vacancies():
 
 # получаем "сырой" ответ
 raw_data = get_vacancies()
+
 # отрезаем ненужную информацию, отсеиваем неподходящие вакансии (которые не смогли отсеять через API) 
 # ПЫСЫ: не нашел способа через get запрос получить только вакансии с ЗП в $
 data = get_info(raw_data, 'USD')
